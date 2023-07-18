@@ -1,4 +1,7 @@
 
 *.vsidx
 *.lock
+
+# Directories
+.out/*
 .vs/*
